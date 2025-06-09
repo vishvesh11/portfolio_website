@@ -1,0 +1,104 @@
+replicaCount: 2 
+
+image:
+  repository: ghcr.io/vishvesh11/portfolio_website 
+  pullPolicy: IfNotPresent
+  tag: "latest" 
+
+imagePullSecrets:
+  - name: ghcr-secret 
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+
+podSecurityContext:
+  runAsUser: 1001
+  runAsGroup: 1001
+  fsGroup: 1001
+
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  # capabilities:
+  #   drop:
+  #   - ALL
+
+# Kubernetes Service configuration
+service:
+  type: ClusterIP
+  port: 80 # 
+  targetPort: 3000 # 
+
+
+ingress:
+  enabled: true
+  className: traefik 
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: "letsencrypt-prod" 
+
+  hosts:
+    - host: vishvesh.me # <--- YOUR DOMAIN
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - vishvesh.me # 
+      secretName: vishvesh-me-tls 
+
+# Resource limits and requests
+resources:
+  limits:
+    cpu: 750m
+    memory: 768Mi
+  requests:
+    cpu: 300m
+    memory: 384Mi
+
+# Liveness and Readiness Probes
+livenessProbe:
+  httpGet:
+    path: /
+    port: http 
+    scheme: HTTP
+  initialDelaySeconds: 30 
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: http 
+    scheme: HTTP
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+volumes: []
+volumeMounts: []
+nodeSelector: {}
+tolerations: []
+affinity: {}

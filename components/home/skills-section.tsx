@@ -1,45 +1,51 @@
 "use client"
 
 import { motion } from 'framer-motion'
-import { 
-  Brain,
-  Database,
-  BarChart,
-  GitBranch,
-  Cloud,
-  Code
-} from 'lucide-react'
-import { technologies } from '@/lib/data'
 import { cn } from '@/lib/utils'
+import * as LucideIcons from 'lucide-react'; // Imports all icons from lucid-react
+
+// Helper function to get the Lucide icon component by name string
+const getLucidIconComponent = (iconName: string) => {
+  const IconComponent = (LucideIcons as any)[
+    iconName.charAt(0).toUpperCase() + iconName.slice(1)
+  ];
+  return IconComponent || LucideIcons.HelpCircle; // Fallback icon if not found
+};
+
+// Import your revised data structures
+import { technologies, technologyCategories } from '@/lib/data' 
+import React from 'react';
 
 type TechCategoryProps = {
   title: string
-  icon: React.ReactNode
+  icon: React.ReactNode // This will now be a ReactNode (the actual Lucid Icon component)
+  description: string
   technologies: string[]
   className?: string
 }
 
-function TechCategory({ title, icon, technologies, className }: TechCategoryProps) {
+function TechCategory({ title, icon, description, technologies, className }: TechCategoryProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, amount: 0.2 }}
       className={cn(
-        "rounded-lg border bg-card p-6 shadow-sm", 
+        "rounded-lg border bg-card p-6 shadow-sm",
         className
       )}
     >
       <div className="flex items-center gap-3 mb-4">
-        {icon}
+        {icon} {/* The icon is directly passed as a ReactNode with its color */}
         <h3 className="font-semibold text-lg">{title}</h3>
       </div>
+      <p className="text-muted-foreground text-sm mb-4">{description}</p>
       <div className="flex flex-wrap gap-2">
         {technologies.map((tech) => (
-          <span 
+          <span
             key={tech}
-            className="inline-flex items-center rounded-md bg-muted px-3 py-1 text-sm font-medium"
+            className="inline-flex items-center rounded-md bg-muted px-3 py-1 text-sm font-medium text-foreground"
           >
             {tech}
           </span>
@@ -49,52 +55,18 @@ function TechCategory({ title, icon, technologies, className }: TechCategoryProp
   )
 }
 
-const getIconForCategory = (category: string) => {
-  switch(category) {
-    case 'machine-learning':
-      return <Brain className="h-5 w-5 text-purple-500" />
-    case 'data-engineering':
-      return <Database className="h-5 w-5 text-blue-500" />
-    case 'analytics':
-      return <BarChart className="h-5 w-5 text-green-500" />
-    case 'mlops':
-      return <GitBranch className="h-5 w-5 text-red-500" />
-    case 'cloud':
-      return <Cloud className="h-5 w-5 text-sky-500" />
-    default:
-      return <Code className="h-5 w-5" />
-  }
-}
-
-const getCategoryTitle = (category: string) => {
-  switch(category) {
-    case 'machine-learning':
-      return 'Machine Learning'
-    case 'data-engineering':
-      return 'Data Engineering'
-    case 'analytics':
-      return 'Analytics & Visualization'
-    case 'mlops':
-      return 'MLOps & DevOps'
-    case 'cloud':
-      return 'Cloud & Infrastructure'
-    default:
-      return category
-  }
-}
-
 export default function SkillsSection() {
-  const categories = [...new Set(technologies.map(tech => tech.category))]
-  
-  const technologiesByCategory = categories.reduce((acc, category) => {
-    acc[category] = technologies
-      .filter(tech => tech.category === category)
-      .map(tech => tech.name)
-    return acc
-  }, {} as Record<string, string[]>)
+  const groupedTechnologies = technologyCategories.map(category => {
+    return {
+      ...category,
+      technologies: technologies
+        .filter(tech => tech.category === category.key)
+        .map(tech => tech.name)
+    };
+  });
   
   return (
-    <section className="py-16 md:py-24 bg-muted/50">
+    <section id="skills" className="py-16 md:py-24 bg-muted/50">
       <div className="container">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <motion.div
@@ -103,22 +75,57 @@ export default function SkillsSection() {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl font-bold tracking-tight mb-4">Technical Skills</h2>
-            <p className="text-muted-foreground">
-              A comprehensive set of technologies and tools I use for data science, machine learning, and deploying models to production.
+            <h2 className="text-3xl font-bold tracking-tight mb-4">My Technical Stack</h2>
+            <p className="text-muted-foreground text-lg">
+              As a **DevOps cum Data Science Engineer**, I bridge the gap between insightful data models and robust production systems. Here's a look at the technologies empowering my work.
             </p>
           </motion.div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categories.map((category) => (
-            <TechCategory 
-              key={category}
-              title={getCategoryTitle(category)}
-              icon={getIconForCategory(category)}
-              technologies={technologiesByCategory[category]}
-            />
-          ))}
+          {groupedTechnologies.map((category) => {
+            const CategoryIconComponent = getLucidIconComponent(category.icon);
+            let iconColorClass = 'text-gray-500'; // Default color
+
+            // Apply specific colors based on category key
+            switch (category.key) {
+              case 'machine-learning':
+                iconColorClass = 'text-purple-500';
+                break;
+              case 'data-engineering':
+                iconColorClass = 'text-blue-500';
+                break;
+              case 'analytics':
+                iconColorClass = 'text-green-500';
+                break;
+              case 'mlops':
+                iconColorClass = 'text-red-500';
+                break;
+              case 'cloud':
+                iconColorClass = 'text-sky-500';
+                break;
+              case 'networking':
+                iconColorClass = 'text-orange-500'; // New color for networking
+                break;
+              case 'security':
+                iconColorClass = 'text-indigo-500'; // New color for security
+                break;
+              case 'observability':
+                iconColorClass = 'text-yellow-500'; // New color for observability
+                break;
+              default:
+                iconColorClass = 'text-gray-500'; // Fallback
+            }
+
+            return (
+              <TechCategory
+                key={category.key}
+                title={category.name}
+                // Render the icon component with dynamic color
+                icon={CategoryIconComponent && React.createElement(CategoryIconComponent, { className: cn("h-6 w-6", iconColorClass) })}
+                technologies={category.technologies} description={''}              />
+            );
+          })}
         </div>
       </div>
     </section>

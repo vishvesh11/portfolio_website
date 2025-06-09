@@ -1,45 +1,78 @@
+// src/lib/technologies.ts (or wherever you defined this)
+
 export type Technology = {
   name: string;
-  icon: string; // The name of the icon from your chosen library
-  category: 'machine-learning' | 'data-engineering' | 'analytics' | 'mlops' | 'cloud' | 'networking' | 'security' | 'observability' | 'automation';
+  icon: string; // The name of the icon from your chosen library (e.g., "brain" for Lucid Icons)
+  category: 'machine-learning' | 'data-engineering' | 'analytics' | 'mlops' | 'cloud' | 'networking' | 'security' | 'observability';
 };
 
 export const technologies: Technology[] = [
-  // Machine Learning
-  { name: 'PyTorch', icon: 'fa-brain', category: 'machine-learning' }, // Using Font Awesome convention
-  { name: 'Scikit-learn', icon: 'fa-robot', category: 'machine-learning' }, // Represents ML models
-  
-  // Data Engineering
-  { name: 'Pandas', icon: 'fa-table', category: 'data-engineering' }, // Represents tabular data
-  { name: 'NumPy', icon: 'fa-calculator', category: 'data-engineering' }, // Represents numerical computation
-  { name: 'PostgreSQL', icon: 'fa-database', category: 'data-engineering' },
-  
-  // Analytics & Visualization
-  { name: 'Tableau', icon: 'fa-chart-pie', category: 'analytics' },
-  { name: 'Looker Studio', icon: 'fa-chart-line', category: 'analytics' },
-  { name: 'Jupyter', icon: 'fa-book-open', category: 'analytics' }, // Represents notebooks
-  
-  // MLOps & Containerization
-  { name: 'Github Actions', icon: 'fa-github-alt', category: 'mlops' }, // GitHub logo
-  { name: 'Helm', icon: 'fa-ship', category: 'mlops' }, // Ship's wheel, often associated with Helm
-  { name: 'Docker', icon: 'fa-docker', category: 'mlops' },
-  { name: 'Kubernetes', icon: 'fa-cubes', category: 'mlops' }, // Represents orchestration/blocks
-  { name: 'Rancher', icon: 'fa-cow', category: 'mlops' }, // Official Rancher mascot
-  
-  
-  // Networking & Proxy
-  { name: 'Nginx', icon: 'fa-server', category: 'networking' }, // Represents a web server/proxy
-  { name: 'Traefik', icon: 'fa-exchange-alt', category: 'networking' }, // Represents traffic exchange
-  { name: 'WireGuard', icon: 'fa-user-secret', category: 'networking' }, // Represents privacy/VPN
-  
-  // Observability
-  { name: 'Grafana', icon: 'fa-chart-area', category: 'observability' }, // Represents dashboards/charts
-  { name: 'Prometheus', icon: 'fa-fire', category: 'observability' }, // Represents alerts/monitoring flame
-  
-  // Security & Access Management
-  { name: 'Cloudflare DNS', icon: 'fa-cloud', category: 'security' }, // Cloud with a lock
-  { name: 'Cloudflare Zero Trust', icon: 'fa-lock', category: 'security' },
-  { name: 'Google OAuth', icon: 'fa-key', category: 'security' }, // Represents authentication key
+
+  { name: 'PyTorch', icon: 'brain', category: 'machine-learning' },
+  { name: 'Scikit-learn', icon: 'robot', category: 'machine-learning' },
+  { name: 'Pandas', icon: 'table', category: 'data-engineering' },
+  { name: 'NumPy', icon: 'calculator', category: 'data-engineering' },
+  { name: 'PostgreSQL', icon: 'database', category: 'data-engineering' },
+  { name: 'Tableau', icon: 'pie-chart', category: 'analytics' },
+  { name: 'Looker Studio', icon: 'line-chart', category: 'analytics' },
+  { name: 'Jupyter', icon: 'notebook', category: 'analytics' },
+  { name: 'Github Actions', icon: 'git-branch', category: 'mlops' },
+  { name: 'Helm', icon: 'ship', category: 'mlops' },
+  { name: 'Docker', icon: 'package', category: 'mlops' }, // Using 'package' for box icon
+  { name: 'Kubernetes', icon: 'box', category: 'cloud' }, // Using 'box' for cubes
+  { name: 'GCP', icon: 'cloud', category: 'cloud' },
+  { name: 'Rancher', icon: 'cow', category: 'mlops' }, // Assuming a 'cow' icon exists
+  { name: 'Nginx', icon: 'server', category: 'networking' },
+  { name: 'Traefik', icon: 'exchange', category: 'networking' },
+  { name: 'WireGuard', icon: 'shield', category: 'networking' },
+  { name: 'Grafana', icon: 'layout-dashboard', category: 'observability' }, // Lucid Icons like layout-dashboard, bar-chart-2
+  { name: 'Prometheus', icon: 'gauge', category: 'observability' },
+  { name: 'Cloudflare DNS', icon: 'globe', category: 'security' },
+  { name: 'Cloudflare Zero Trust', icon: 'lock', category: 'security' },
+  { name: 'Google OAuth', icon: 'key', category: 'security' },
+];
+
+export const technologyCategories = [
+  {
+    name: 'Machine Learning',
+    key: 'machine-learning',
+    icon: 'brain', // Lucid Icons: brain
+  },
+  {
+    name: 'Data Engineering',
+    key: 'data-engineering',
+    icon: 'server', // Lucid Icons: server
+  },
+  {
+    name: 'Analytics & Visualization',
+    key: 'analytics',
+    icon: 'bar-chart-2', // Lucid Icons: bar-chart-2 or line-chart
+  },
+  {
+    name: 'MLOps & DevOps',
+    key: 'mlops',
+    icon: 'cog', // Lucid Icons: cog (for cogs/gears)
+  },
+  {
+    name: 'Cloud Platforms',
+    key: 'cloud',
+    icon: 'cloud', // Lucid Icons: cloud
+  },
+  {
+    name: 'Networking & Proxy',
+    key: 'networking',
+    icon: 'network', // Lucid Icons: network
+  },
+  {
+    name: 'Security & Access Management',
+    key: 'security',
+    icon: 'shield', // Lucid Icons: shield
+  },
+  {
+    name: 'Observability & Monitoring',
+    key: 'observability',
+    icon: 'eye', // Lucid Icons: eye
+  },
 ];
 export type Project = {
   id: string;

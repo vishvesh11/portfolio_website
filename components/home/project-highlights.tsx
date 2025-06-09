@@ -59,7 +59,7 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
           
           <div className="flex items-center gap-2">
             {project.githubUrl && (
-              <Button asChild variant="ghost\" size="icon">
+              <Button asChild variant="ghost" size="icon">
                 <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository">
                   <Github className="h-4 w-4" />
                 </a>
