@@ -1,9 +1,9 @@
-name: Build and Deploy Portfolio Website to K3s
+name: Build and Deploy Dash App to K3s
 
 on:
   push:
     branches:
-      - main 
+      - main
 
 jobs:
   deploy:
@@ -15,6 +15,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        lfs: true
+        fetch-depth: 0
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -24,23 +27,23 @@ jobs:
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }} 
+        password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build and push Docker image to GHCR
       id: docker_build
       uses: docker/build-push-action@v5
       with:
-        context: . 
+        context: .
         file: ./Dockerfile
         push: true
-        tags: ghcr.io/${{ github.repository }}:latest,ghcr.io/${{ github.repository }}:${{ github.sha }}
-        
+        tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
+        no-cache: true
         platforms: linux/amd64,linux/arm64
 
     - name: Install Helm
       uses: azure/setup-helm@v1
       with:
-        version: '3.8.1' # Specify a Helm version
+        version: '3.8.1'
 
     - name: Set Kubeconfig
       run: |
@@ -50,15 +53,11 @@ jobs:
         chmod 600 ~/.kube/config
         # Verify kubectl can connect
         kubectl cluster-info
-        kubectl get nodes
+        kubectl get nodes # Add this to verify node connection
 
     - name: Deploy to Kubernetes with Helm
       run: |
-        # Use the portfolio-website-chart directory
         helm upgrade --install portfolio-website ./portfolio-website-chart \
           --set image.tag=${{ github.sha }} \
           --set image.repository=ghcr.io/${{ github.repository }} \
-          --set service.targetPort=3000 \ # <--- Explicitly set targetPort for clarity
-          --set ingress.hosts[0].host=vishvesh.me \ # <--- Set your domain
-          --set ingress.tls[0].hosts[0]=vishvesh.me \ # <--- Set your domain for TLS
           --wait # Wait for the deployment to be ready
