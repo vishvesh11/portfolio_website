@@ -1,15 +1,11 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter as FontSans } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { cn } from '@/lib/utils';
 
-const fontSans = FontSans({
-  subsets: ['latin'],
-  variable: '--font-sans',
-});
+
 
 export const metadata: Metadata = {
   title: 'Software Engineer Portfolio',
@@ -27,7 +23,6 @@ export default function RootLayout({
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
-          fontSans.variable
         )}
       >
         <ThemeProvider

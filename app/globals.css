@@ -1,7 +1,34 @@
+/* src/app/globals.css */
+
+/* Define the Inter font using @font-face */
+@font-face {
+  font-family: 'Inter';
+  /* This is the name you'll use to reference the font */
+  font-style: normal;
+  /* IMPORTANT: Adjust this font-weight range based on the Inter font file you downloaded.
+     If it's a variable font (e.g., Inter-VariableFont_slnt,wght.woff2), 100 900 is correct.
+     If you downloaded specific weights (e.g., Inter-Regular.woff2), define each weight separately,
+     e.g., font-weight: 400; for Inter-Regular.woff2.
+  */
+  font-weight: 100 900;
+  font-display: swap;
+  /* Tells the browser how to display text while the font is loading */
+  /* This URL must exactly match the path and filename of your font file in public/fonts/ */
+  src: url('/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa2pL7W0Q5n-wU.woff2') format('woff2');
+  /* If you have a .woff fallback:
+  src: url('/fonts/your-inter-font-name.woff') format('woff'),
+       url('/fonts/your-inter-font-name.woff2') format('woff2');
+  */
+}
+
+
+/* Tailwind CSS Directives - Keep these at the top after @font-face rules */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
+/* Your existing CSS variables and layers */
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -44,6 +71,7 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -76,7 +104,10 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    /* <--- ADD OR MODIFY THIS LINE to apply your font */
   }
 }

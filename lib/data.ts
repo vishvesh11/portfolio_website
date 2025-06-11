@@ -144,28 +144,53 @@ export const projects: Project[] = [
   },
   {
     id: '3',
-    title: 'Kubernetes Cluster for Homelab',
-    slug: 'kubernetes-homelab',
-    shortDescription: 'A multi-node Kubernetes cluster for hosting homelab services with automated monitoring.',
-    longDescription: 'Designed and implemented a production-grade Kubernetes cluster for homelab use, including high availability, persistent storage, automated monitoring, and GitOps-based deployment.',
-    technologies: ['Kubernetes', 'Prometheus', 'Grafana', 'Helm'],
-    imageSrc: 'https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    githubUrl: 'https://github.com/vishvesh11/k8s-homelab',
-    problem: 'Managing multiple Docker containers across different machines was becoming complex and difficult to maintain.',
-    solution: 'Implemented a Kubernetes cluster to centralize management, improve scalability, and enable automated deployments of homelab services.',
-    architecture: 'The cluster consists of three control plane nodes and five worker nodes, with Longhorn for distributed storage, MetalLB for load balancing, and Cert-Manager for TLS certificates.',
+    title: 'Distributed K3s Homelab Cluster',
+    slug: 'distributed-k3s-homelab',
+    shortDescription: 'A geo-distributed K3s cluster leveraging cloud, bare-metal, and edge devices for resilient homelab services.',
+    longDescription: 'Designed and implemented a lightweight yet powerful K3s Kubernetes cluster spanning multiple physical locations. This project focuses on establishing robust inter-node communication, centralizing management, and integrating diverse hardware to host various homelab services, including plans for media streaming with local storage integration.',
+    technologies: ['Kubernetes (K3s)', 'Rancher', 'Traefik', 'WireGuard', 'Flannel', 'Docker', 'Ubuntu Server', 'Proxmox', 'Jellyfin (Planned)'],
+    imageSrc: '/public/fonts/Kuberneties Network.png', // You might want to find a more representative image!
+    githubUrl: 'https://github.com/vishvesh11/k8s-homelab', // Ensure this is your actual repo URL for the k8s config
+    problem: 'Traditional single-location homelab setups lack true resilience and geographical diversity. Managing services across disparate hardware types (cloud, home server, edge) requires a unified, lightweight, and extensible orchestration platform.',
+    solution: 'Deployed K3s, a lightweight Kubernetes distribution, across an Oracle Cloud VM (master) and a local Proxmox VM (worker). WireGuard tunnels secure inter-node communication, providing a reliable network fabric. Rancher centralizes cluster management, and Traefik handles external Ingress. Future expansion includes a remote node in Pune and an edge device (OnePlus Nord) to create a highly distributed and fault-tolerant environment.',
+    architecture: `
+**Control Plane:**
+  - **Master Node:** Oracle Cloud VM (Ubuntu 24.04 LTS, IP: 10.0.0.80) running K3s control plane, Traefik Ingress Controller, and Rancher for cluster management. This node serves as the primary entry point for external traffic.
+
+**Worker Nodes:**
+  - **Home Node:** Proxmox VM (Ubuntu 24.04 LTS, IP: 192.168.5.5) running K3s worker. Currently, it hosts the 'portfolio-website' pod and is planned to integrate local storage for services like Jellyfin. This node is currently set to 'SchedulingDisabled'.
+  - **Future Pune Node:** A planned VM in Pune, India, to be added as a K3s worker for geographical redundancy and distributed workloads.
+  - **Future Edge Node:** A OnePlus Nord running Ubuntu Touch, intended to join as a K3s worker, exploring edge computing capabilities within the cluster.
+
+**Networking:**
+  - **CNI:** K3s's default Flannel (VXLAN) provides the overlay network for inter-pod communication.
+  - **Secure Inter-Node Communication:** WireGuard VPN tunnel is established as a secure interface between all K3s nodes. This ensures encrypted and reliable communication across diverse network environments (cloud, home LAN, mobile).
+  - **Ingress:** Traefik Ingress Controller, running on the master node, manages external access to services (e.g., 'portfolio-website' via vishvesh.me) with automated SSL certificate provisioning.
+
+**Management & Storage:**
+  - **Cluster Management:** Rancher provides a centralized UI for managing cluster resources, deployments, and users.
+  - **Persistent Storage:** Currently exploring solutions for persistent storage. For Jellyfin, direct integration with a hard drive on the home Proxmox node is planned to serve media files. Other persistent storage solutions will be evaluated for broader cluster use.
+
+**Deployed Applications:
+  - 'portfolio-website': Your personal portfolio site.
+  - 'future-city-dash': Another application demonstrating Kubernetes capabilities.
+  - 'Jellyfin': Planned for media streaming, leveraging local storage on the home node.
+`,
     challenges: [
-      'Designing a proper network architecture',
-      'Implementing persistent storage for stateful applications',
-      'Ensuring high availability with proper resource allocation'
+      'Establishing robust and secure inter-node network connectivity across diverse geographical locations and network types (cloud, home LAN, mobile data) using WireGuard and Flannel.',
+      'Implementing a scalable and reliable persistent storage solution that can integrate local storage for specific applications (like Jellyfin) while supporting general cluster needs.',
+      'Managing network policies and security across a distributed, heterogeneous cluster with varying network characteristics.',
+      'Integrating edge devices (OnePlus Nord) with limited resources and unique network considerations into the cluster topology.',
+      'Ensuring high availability and resilience across geographically dispersed nodes with potential network latency differences.'
     ],
     outcomes: [
-      'Reduced service deployment time from hours to minutes',
-      'Improved resource utilization by 40%',
-      'Achieved 99.95% uptime for critical services',
-      'Simplified management of 20+ applications'
+      'Successfully deployed a foundational multi-node K3s cluster across different environments.',
+      'Established secure and functional inter-node communication using WireGuard tunnels, enabling cross-node pod connectivity.',
+      'Centralized cluster management with Rancher, simplifying deployments and monitoring.',
+      'Successfully exposed applications externally via Traefik Ingress with SSL, demonstrating public accessibility.',
+      'Gained practical experience in distributed systems, network configuration, and K3s cluster operations.'
     ]
-  },
+},
   {
     id: '4',
     title: 'City Traffic Dashboard',
