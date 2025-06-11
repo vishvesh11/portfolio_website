@@ -1,5 +1,4 @@
-
-"use client" 
+"use client"
 
 import { useParams, notFound } from 'next/navigation'
 import { useState, useEffect } from 'react'
@@ -20,9 +19,11 @@ import {
   FileText,
   Loader2
 } from 'lucide-react'
-import { projects } from '@/lib/data' 
+import { projects } from '@/lib/data'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
-export default function ProjectClientPage() { 
+export default function ProjectClientPage() {
   const params = useParams()
   const slug = params?.slug as string
   const [readme, setReadme] = useState<string>('')
@@ -31,36 +32,65 @@ export default function ProjectClientPage() {
   const project = projects.find(p => p.slug === slug)
 
   useEffect(() => {
+
     if (project?.githubUrl) {
       fetchReadme()
     }
-  }, [project])
+  }, [project]) 
 
   const fetchReadme = async () => {
+
     if (!project?.githubUrl) return
 
-    setLoading(true)
+    setLoading(true) // Show the loading spinner
     try {
 
       const urlParts = project.githubUrl.split('/')
+
+
       const owner = urlParts[urlParts.length - 2]
-      const repo = urlParts[urlParts.length - 1]
+
+
+      let repo = urlParts[urlParts.length - 1]
+
+
+
+
+      if (repo.endsWith('.git')) {
+        repo = repo.slice(0, -4) 
+      }
+
 
       const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/readme`)
+
       if (response.ok) {
-        const data = await response.json()
-        const content = atob(data.content)
-        setReadme(content)
+
+        const data = await response.json() 
+        const content = atob(data.content) 
+        setReadme(content) 
       } else {
-        setReadme(`Failed to load README. Status: ${response.status} ${response.statusText}`);
+        // If the fetch failed (e.g., 404 Not Found)
+        let errorMessage = `Failed to load README. Status: ${response.status} ${response.statusText}.`
+        try {
+
+          const errorData = await response.json()
+          if (errorData.message) {
+            errorMessage += ` Message: ${errorData.message}`
+          }
+        } catch (e) {
+
+        }
+        setReadme(errorMessage)
       }
     } catch (error) {
+
       console.error('Failed to fetch README:', error)
       setReadme('README content could not be loaded due to a network error.')
     } finally {
-      setLoading(false)
+      setLoading(false) 
     }
   }
+
 
   if (!project) {
     notFound()
@@ -166,7 +196,9 @@ export default function ProjectClientPage() {
                       </div>
                     ) : readme ? (
                       <div className="prose prose-neutral dark:prose-invert max-w-none">
-                        {/* You might want a Markdown renderer here if you intend to display formatted MD */}
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {readme}
+                        </ReactMarkdown>
                         <pre className="whitespace-pre-wrap text-sm">{readme}</pre>
                       </div>
                     ) : (

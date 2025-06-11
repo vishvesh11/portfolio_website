@@ -149,8 +149,8 @@ export const projects: Project[] = [
     shortDescription: 'A geo-distributed K3s cluster leveraging cloud, bare-metal, and edge devices for resilient homelab services.',
     longDescription: 'Designed and implemented a lightweight yet powerful K3s Kubernetes cluster spanning multiple physical locations. This project focuses on establishing robust inter-node communication, centralizing management, and integrating diverse hardware to host various homelab services, including plans for media streaming with local storage integration.',
     technologies: ['Kubernetes (K3s)', 'Rancher', 'Traefik', 'WireGuard', 'Flannel', 'Docker', 'Ubuntu Server', 'Proxmox', 'Jellyfin (Planned)'],
-    imageSrc: '/public/fonts/Kuberneties Network.png', // You might want to find a more representative image!
-    githubUrl: 'https://github.com/vishvesh11/k8s-homelab', // Ensure this is your actual repo URL for the k8s config
+    imageSrc: `/Kuberneties_Network.png`, // You might want to find a more representative image!
+    githubUrl: 'https://github.com/vishvesh11/Distributed-K3s-Homelab-Cluster.git', 
     problem: 'Traditional single-location homelab setups lack true resilience and geographical diversity. Managing services across disparate hardware types (cloud, home server, edge) requires a unified, lightweight, and extensible orchestration platform.',
     solution: 'Deployed K3s, a lightweight Kubernetes distribution, across an Oracle Cloud VM (master) and a local Proxmox VM (worker). WireGuard tunnels secure inter-node communication, providing a reliable network fabric. Rancher centralizes cluster management, and Traefik handles external Ingress. Future expansion includes a remote node in Pune and an edge device (OnePlus Nord) to create a highly distributed and fault-tolerant environment.',
     architecture: `
