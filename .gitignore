@@ -7,7 +7,6 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # Next.js specific
-.next/ 
 .next/cache/ 
 .next/server/ 
 
