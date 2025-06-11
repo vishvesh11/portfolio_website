@@ -35,5 +35,21 @@ yarn-error.log*
 *.tgz
 *.zip
 *.rar
+# Node.js
+.pnpm-store/ # If using pnpm
+
+# macOS
+.DS_Store
+
+# Next.js production build output
+.next/
+
+# Next.js static export output
+out/
+
+
+# VS Code
+.vscode/
+
 
 
