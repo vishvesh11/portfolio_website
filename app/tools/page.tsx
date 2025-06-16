@@ -48,7 +48,7 @@ const services: Service[] = [
     id: 'reactive-resume',
     name: 'Reactive Resume',
     description: 'Free and open-source resume builder',
-    url: 'https://resume.yourdomain.com',
+    url: 'https://resumebuilder.vishvesh.me/auth/login?redirect=/dashboard',
     category: 'productivity',
     icon: '📄',
     status: 'online',
