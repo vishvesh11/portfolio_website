@@ -65,7 +65,7 @@ export default function HeroSection() {
               transition={{ duration: 0.5 }}
             >
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-                DevOps & Data Science Engineer  <span className="text-primary">|</span> Bridging Models to Production
+                DevOps & Data Science Engineer <span className="text-primary">|</span> Bridging Models to Production
               </h1>
               <p className="mt-4 text-xl text-muted-foreground">
                 Empowered by DevOps Principles for Scalable Deployments
@@ -90,7 +90,10 @@ export default function HeroSection() {
                 <Link href="/projects">Explore My Data Science Projects</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/homelab">View My DevOps Infrastructure</Link>
+                {/* Changed href to the GitHub repository URL */}
+                <a href="https://github.com/vishvesh11/Distributed-K3s-Homelab-Cluster" target="_blank" rel="noopener noreferrer">
+                  View My DevOps Infrastructure
+                </a>
               </Button>
               <Button size="lg" variant="ghost" asChild>
                 <a

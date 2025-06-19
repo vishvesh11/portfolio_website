@@ -36,13 +36,13 @@ const services: Service[] = [
   {
     id: 'excalidraw',
     name: 'Excalidraw',
-    description: 'Virtual whiteboard for sketching hand-drawn like diagrams',
-    url: 'https://draw.yourdomain.com',
+    description: 'Coming soon: A virtual whiteboard for sketching hand-drawn like diagrams.',
+    url: '#coming-soon',
     category: 'productivity',
     icon: '✏️',
-    status: 'online',
-    lastChecked: '2 minutes ago',
-    features: ['Real-time collaboration', 'Hand-drawn style', 'Export options']
+    status: 'maintenance',
+    lastChecked: 'N/A',
+    features: ['Coming Soon']
   },
   {
     id: 'reactive-resume',
@@ -58,93 +58,92 @@ const services: Service[] = [
   {
     id: 'code-server',
     name: 'Code Server',
-    description: 'VS Code in the browser for remote development',
-    url: 'https://code.yourdomain.com',
+    description: 'Coming soon: VS Code in the browser for remote development.',
+    url: '#coming-soon',
     category: 'development',
     icon: '💻',
-    status: 'online',
-    lastChecked: '3 minutes ago',
-    features: ['Full VS Code experience', 'Extensions support', 'Terminal access']
+    status: 'maintenance',
+    lastChecked: 'N/A',
+    features: ['Coming Soon']
   },
   {
     id: 'gitea',
     name: 'Gitea',
-    description: 'Self-hosted Git service with web interface',
-    url: 'https://git.yourdomain.com',
+    description: 'Coming soon: Self-hosted Git service with web interface.',
+    url: '#coming-soon',
     category: 'development',
     icon: '🔧',
-    status: 'online',
-    lastChecked: '1 minute ago',
-    features: ['Git repositories', 'Issue tracking', 'CI/CD integration']
+    status: 'maintenance',
+    lastChecked: 'N/A',
+    features: ['Coming Soon']
   },
   {
     id: 'nextcloud',
     name: 'Nextcloud',
-    description: 'Self-hosted file sync and collaboration platform',
-    url: 'https://cloud.yourdomain.com',
+    description: 'Coming soon: Self-hosted file sync and collaboration platform.',
+    url: '#coming-soon',
     category: 'productivity',
     icon: '☁️',
-    status: 'online',
-    lastChecked: '2 minutes ago',
-    features: ['File synchronization', 'Calendar & contacts', 'Office suite']
+    status: 'maintenance',
+    lastChecked: 'N/A',
+    features: ['Coming Soon']
   },
   {
     id: 'jellyfin',
     name: 'Jellyfin',
-    description: 'Media server for streaming movies, TV shows, and music',
-    url: 'https://media.yourdomain.com',
+    description: 'Coming soon: Media server for streaming movies, TV shows, and music.',
+    url: '#coming-soon',
     category: 'media',
     icon: '🎬',
-    status: 'online',
-    lastChecked: '4 minutes ago',
-    features: ['Media streaming', 'Mobile apps', 'Transcoding']
+    status: 'maintenance',
+    lastChecked: 'N/A',
+    features: ['Coming Soon']
   },
   {
     id: 'grafana',
     name: 'Grafana',
-    description: 'Monitoring and observability dashboards',
-    url: 'https://grafana.yourdomain.com',
+    description: 'Coming soon: Monitoring and observability dashboards.',
+    url: '#coming-soon',
     category: 'monitoring',
     icon: '📊',
-    status: 'online',
-    lastChecked: '1 minute ago',
-    features: ['Custom dashboards', 'Alerting', 'Data visualization']
+    status: 'maintenance',
+    lastChecked: 'N/A',
+    features: ['Coming Soon']
   },
   {
     id: 'uptime-kuma',
     name: 'Uptime Kuma',
-    description: 'Self-hosted monitoring tool for uptime tracking',
-    url: 'https://status.yourdomain.com',
+    description: 'Coming soon: Self-hosted monitoring tool for uptime tracking.',
+    url: '#coming-soon',
     category: 'monitoring',
     icon: '⏱️',
-    status: 'online',
-    lastChecked: '30 seconds ago',
-    features: ['Uptime monitoring', 'Status pages', 'Notifications']
+    status: 'maintenance',
+    lastChecked: 'N/A',
+    features: ['Coming Soon']
   },
   {
     id: 'vaultwarden',
     name: 'Vaultwarden',
-    description: 'Self-hosted Bitwarden compatible password manager',
-    url: 'https://vault.yourdomain.com',
+    description: 'Coming soon: Self-hosted Bitwarden compatible password manager.',
+    url: '#coming-soon',
     category: 'utility',
     icon: '🔐',
-    status: 'online',
-    lastChecked: '2 minutes ago',
-    features: ['Password management', 'Secure notes', 'Two-factor auth']
+    status: 'maintenance',
+    lastChecked: 'N/A',
+    features: ['Coming Soon']
   },
   {
     id: 'portainer',
     name: 'Portainer',
-    description: 'Container management platform',
-    url: 'https://portainer.yourdomain.com',
+    description: 'Coming soon: Container management platform.',
+    url: '#coming-soon',
     category: 'development',
     icon: '🐳',
     status: 'maintenance',
-    lastChecked: '10 minutes ago',
-    features: ['Container management', 'Stack deployment', 'Resource monitoring']
+    lastChecked: 'N/A',
+    features: ['Coming Soon']
   }
 ]
-
 const categoryColors = {
   productivity: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
   development: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
