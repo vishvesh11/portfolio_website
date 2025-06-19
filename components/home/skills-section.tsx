@@ -77,7 +77,7 @@ export default function SkillsSection() {
           >
             <h2 className="text-3xl font-bold tracking-tight mb-4">My Technical Stack</h2>
             <p className="text-muted-foreground text-lg">
-              As a **DevOps cum Data Science Engineer**, I bridge the gap between insightful data models and robust production systems. Here's a look at the technologies empowering my work.
+              As a Software Engineer, I bridge the gap between insightful data models and robust production systems. Here's a look at the technologies empowering my work.
             </p>
           </motion.div>
         </div>
