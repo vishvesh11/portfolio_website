@@ -214,53 +214,34 @@ export const projects: Project[] = [
       'Identified and remediated previously unknown security vulnerabilities'
     ]
   },
+
   {
-    id: '5',
-    title: 'Machine Learning Model Deployment Pipeline',
-    slug: 'ml-deployment-pipeline',
-    shortDescription: 'End-to-end MLOps pipeline for model training, validation, and deployment using Kubeflow.',
-    longDescription: 'Built a comprehensive MLOps pipeline that automates the entire machine learning lifecycle from data ingestion to model deployment, including automated retraining and monitoring.',
-    technologies: ['Kubeflow', 'MLflow', 'TensorFlow', 'Docker', 'Kubernetes', 'Prometheus'],
-    imageSrc: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    githubUrl: 'https://github.com/vishvesh11/ml-pipeline',
-    problem: 'Manual model deployment process was slow, error-prone, and lacked proper monitoring and versioning.',
-    solution: 'Implemented an automated MLOps pipeline using Kubeflow for orchestration, MLflow for experiment tracking, and Kubernetes for scalable deployment.',
-    architecture: 'The pipeline includes data validation, model training, hyperparameter tuning, model validation, deployment, and monitoring components all orchestrated through Kubeflow.',
-    challenges: [
-      'Integrating multiple ML tools into a cohesive pipeline',
-      'Implementing proper model versioning and rollback mechanisms',
-      'Setting up comprehensive monitoring for model performance drift'
+    "id": "5",
+    "title": "Real-time Public Transport Monitoring Dashboard (Delhi)",
+    "slug": "realtime-public-transport-dashboard",
+    "shortDescription": "A real-time data analytics dashboard for live monitoring of public transport vehicles in Delhi.",
+    "longDescription": "Designed and developed a comprehensive real-time analytics platform to ingest, process, store, and visualize live public transport vehicle data. This system provides actionable insights into vehicle positions, speeds, and overall fleet status, crucial for operational management and passenger information.",
+    "technologies": ["MQTT", "Python", "InfluxDB", "Streamlit", "Kubernetes", "Docker", "Plotly"],
+    "imageSrc":  `Deployment.png`,
+    "githubUrl": "https://github.com/vishvesh11/real-time-data-analysis", 
+    "liveUrl": "https://delhirealtime.vishvesh.me", 
+    "problem": "Public transport authorities lacked real-time visibility into vehicle locations, speeds, and operational status, leading to inefficiencies in dispatch, schedule adherence, and incident response. Existing systems provided only delayed, aggregated data.",
+    "solution": "Built an end-to-end streaming data pipeline. Vehicle position data is ingested via MQTT, processed in real-time using Python applications to calculate metrics like speed, stored efficiently in InfluxDB, and presented through an interactive, live Streamlit dashboard deployed on Kubernetes.",
+    "architecture": "Vehicle position data is streamed to an MQTT broker. A Python-based processor subscribes to MQTT topics, calculates real-time speed and other derived metrics, and writes this enriched data to InfluxDB. The Streamlit dashboard queries InfluxDB (and uses Redis for rapid caching of latest data) to display live vehicle locations, speeds (with color-coded bus icons), and key performance indicators, all containerized with Docker and orchestrated using Kubernetes.",
+    "challenges": [
+      "Handling continuous high-frequency streams of location data from numerous vehicles.",
+      "Performing real-time calculation of derived metrics like speed and distance traveled.",
+      "Optimizing InfluxDB queries for dashboard responsiveness, especially for time-series data.",
+      "Ensuring low-latency data flow from ingestion to visualization (sub-second updates).",
+      "Managing and scaling stateful components (InfluxDB) within a Kubernetes environment.",
+      "Implementing efficient caching strategies (e.g., Redis) to reduce load on the primary database and improve dashboard load times."
     ],
-    outcomes: [
-      'Reduced model deployment time from weeks to hours',
-      'Implemented automated model retraining based on performance metrics',
-      'Achieved 99.5% model availability with automated failover',
-      'Improved model accuracy by 15% through systematic experimentation'
+    "outcomes": [
+      "Enabled real-time tracking of over 1,000 public transport vehicles simultaneously.",
+    
+      "Provided accurate, live speed and location data, improving operational control and decision-making.",
+      "Enhanced user experience with an interactive, constantly updating dashboard displaying critical KPIs and map visualizations.",
+      "Improved potential for optimizing routes and schedules based on real-time traffic and vehicle performance."
     ]
-  },
-  {
-    id: '6',
-    title: 'Real-time Data Analytics Dashboard',
-    slug: 'realtime-analytics-dashboard',
-    shortDescription: 'Real-time analytics platform processing streaming data with Apache Kafka and Apache Spark.',
-    longDescription: 'Developed a real-time analytics platform that processes streaming data from multiple sources, performs real-time analysis, and presents insights through interactive dashboards.',
-    technologies: ['Apache Kafka', 'Apache Spark', 'Elasticsearch', 'Kibana', 'Python', 'Docker'],
-    imageSrc: 'https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    githubUrl: 'https://github.com/vishvesh11/realtime-analytics',
-    liveUrl: 'https://analytics-demo.example.com',
-    problem: 'Business needed real-time insights from multiple data sources but existing batch processing was too slow for decision-making.',
-    solution: 'Built a streaming analytics platform using Kafka for data ingestion, Spark for real-time processing, and Elasticsearch/Kibana for visualization.',
-    architecture: 'Data flows from multiple sources into Kafka topics, Spark Streaming processes the data in real-time, results are stored in Elasticsearch, and Kibana provides interactive dashboards.',
-    challenges: [
-      'Handling high-volume streaming data without data loss',
-      'Implementing complex event processing for real-time analytics',
-      'Ensuring low-latency processing while maintaining data accuracy'
-    ],
-    outcomes: [
-      'Reduced time-to-insight from hours to seconds',
-      'Processed over 1 million events per minute with sub-second latency',
-      'Enabled real-time decision making for business operations',
-      'Improved operational efficiency by 30% through real-time monitoring'
-    ]
-  }
+}
 ];
