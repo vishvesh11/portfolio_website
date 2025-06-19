@@ -3,12 +3,12 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { 
-  Server, 
-  Shield, 
-  Network, 
-  Monitor, 
-  HardDrive, 
+import {
+  Server,
+  Shield,
+  Network,
+  Monitor,
+  HardDrive,
   Cloud,
   ArrowRight,
   Github,
@@ -21,50 +21,58 @@ const infrastructureComponents = [
   {
     id: 'proxmox',
     title: 'Proxmox Virtualization',
-    description: 'Enterprise-grade virtualization platform',
+    description: 'Guide to setting up Proxmox for virtualization',
     icon: <Server className="h-6 w-6" />,
     color: 'text-blue-500',
-    slug: 'proxmox-setup'
+    href: 'https://github.com/vishvesh11/self-hosting-guides' // Direct link to GitHub
   },
   {
     id: 'kubernetes',
     title: 'Kubernetes Cluster',
-    description: 'Container orchestration and management',
+    description: 'Guide to setting up a Distributed K3s Homelab Cluster',
     icon: <Cloud className="h-6 w-6" />,
     color: 'text-purple-500',
-    slug: 'kubernetes-cluster'
+    href: 'https://github.com/vishvesh11/Distributed-K3s-Homelab-Cluster' // Direct link to GitHub
   },
   {
     id: 'networking',
     title: 'Network Infrastructure',
-    description: 'pfSense, VLANs, and security',
+    description: 'Coming Soon: pfSense, VLANs, and security guides.',
     icon: <Network className="h-6 w-6" />,
     color: 'text-green-500',
-    slug: 'network-setup'
+    href: null // Coming soon
   },
   {
     id: 'monitoring',
     title: 'Monitoring Stack',
-    description: 'Prometheus, Grafana, and alerting',
+    description: 'Coming Soon: Prometheus, Grafana, and alerting guides.',
     icon: <Monitor className="h-6 w-6" />,
     color: 'text-orange-500',
-    slug: 'monitoring-stack'
+    href: null // Coming soon
   },
   {
     id: 'storage',
     title: 'Storage Solutions',
-    description: 'NAS, backup, and distributed storage',
+    description: 'Coming Soon: NAS, backup, and distributed storage guides.',
     icon: <HardDrive className="h-6 w-6" />,
     color: 'text-cyan-500',
-    slug: 'storage-setup'
+    href: null // Coming soon
   },
   {
     id: 'security',
     title: 'Security & Access',
-    description: 'VPN, authentication, and hardening',
+    description: 'Guide to VPN, authentication, and hardening (Wireguard Server Setup)',
     icon: <Shield className="h-6 w-6" />,
     color: 'text-red-500',
-    slug: 'security-setup'
+    href: 'https://github.com/vishvesh11/self-hosting-guides/blob/main/services/wireguard_server_setup.md' // Direct link to GitHub
+  },
+  {
+    id: 'reactive-resume-k8s',
+    title: 'Reactive Resume on Kubernetes',
+    description: 'Guide to deploying Reactive Resume on Kubernetes',
+    icon: <Cloud className="h-6 w-6" />, // Reusing Cloud icon for Kubernetes deployment
+    color: 'text-indigo-500',
+    href: 'https://github.com/vishvesh11/Distributed-K3s-Homelab-Cluster/tree/main/Services/Reactive-Resume' // Direct link to GitHub
   }
 ]
 
@@ -84,27 +92,27 @@ export default function InfrastructurePage() {
           Comprehensive guides and documentation for building a production-ready homelab infrastructure.
           From virtualization to monitoring, security to storage - everything you need to replicate my setup.
         </p>
-        
+
         <div className="flex flex-wrap gap-4 justify-center">
           <Button asChild size="lg" className="gap-2">
-            <a 
-              href="https://github.com/vishvesh11/self-hosting-guides" 
-              target="_blank" 
+            <a
+              href="https://github.com/vishvesh11/self-hosting-guides"
+              target="_blank"
               rel="noopener noreferrer"
             >
               <Github className="h-5 w-5" />
               Complete Setup Repository
             </a>
-          </Button>
+         </Button>
           <Button asChild size="lg" variant="outline" className="gap-2">
-            <Link href="/homelab">
+            <a href="https://github.com/vishvesh11/Distributed-K3s-Homelab-Cluster" target="_blank" rel="noopener noreferrer">
               <Server className="h-5 w-5" />
               View My Current Setup
-            </Link>
+            </a>
           </Button>
         </div>
       </motion.div>
-      
+
       {/* Infrastructure Diagram */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -121,7 +129,7 @@ export default function InfrastructurePage() {
           </CardHeader>
           <CardContent className="p-0">
             <div className="relative aspect-video bg-muted/50">
-              <Image 
+              <Image
                 src="https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 alt="Infrastructure Diagram"
                 fill
@@ -130,8 +138,8 @@ export default function InfrastructurePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
                 <p className="text-sm text-muted-foreground bg-background/80 backdrop-blur-sm rounded p-3">
-                  This diagram shows the complete infrastructure layout including physical servers, 
-                  network topology, virtualization layers, and service deployments. Each component 
+                  This diagram shows the complete infrastructure layout including physical servers,
+                  network topology, virtualization layers, and service deployments. Each component
                   is designed for high availability and scalability.
                 </p>
               </div>
@@ -139,7 +147,7 @@ export default function InfrastructurePage() {
           </CardContent>
         </Card>
       </motion.div>
-      
+
       {/* Setup Guides Grid */}
       <div className="mb-12">
         <h2 className="text-3xl font-bold tracking-tight mb-8 text-center">Setup Guides</h2>
@@ -151,34 +159,58 @@ export default function InfrastructurePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="h-full hover:shadow-md transition-shadow cursor-pointer group">
-                <Link href={`/infrastructure/guides/${component.slug}`}>
-                  <CardHeader>
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className={`${component.color}`}>
-                        {component.icon}
+              <Card className="h-full hover:shadow-md transition-shadow group">
+                {component.href ? (
+                  <a href={component.href} target="_blank" rel="noopener noreferrer">
+                    <CardHeader>
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className={`${component.color}`}>
+                          {component.icon}
+                        </div>
+                        <CardTitle className="text-lg group-hover:text-primary transition-colors">
+                          {component.title}
+                        </CardTitle>
                       </div>
-                      <CardTitle className="text-lg group-hover:text-primary transition-colors">
-                        {component.title}
-                      </CardTitle>
-                    </div>
-                    <CardDescription>{component.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">
-                        Step-by-step guide
-                      </span>
-                      <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                    </div>
-                  </CardContent>
-                </Link>
+                      <CardDescription>{component.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">
+                          View Guide on GitHub
+                        </span>
+                        <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                      </div>
+                    </CardContent>
+                  </a>
+                ) : (
+                  <div className="cursor-not-allowed"> {/* Disable cursor for 'coming soon' */}
+                    <CardHeader>
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className={`${component.color}`}>
+                          {component.icon}
+                        </div>
+                        <CardTitle className="text-lg text-gray-500"> {/* Grey out title */}
+                          {component.title}
+                        </CardTitle>
+                      </div>
+                      <CardDescription className="text-gray-400">{component.description}</CardDescription> {/* Grey out description */}
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-400">
+                          Coming Soon
+                        </span>
+                        <ArrowRight className="h-4 w-4 text-gray-400" />
+                      </div>
+                    </CardContent>
+                  </div>
+                )}
               </Card>
             </motion.div>
           ))}
         </div>
       </div>
-      
+
       {/* Additional Resources */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -195,32 +227,32 @@ export default function InfrastructurePage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-muted-foreground">
-              Each guide includes detailed configuration files, troubleshooting tips, 
+              Each guide includes detailed configuration files, troubleshooting tips,
               and best practices learned from real-world deployment experience.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button asChild variant="outline">
-                <a 
-                  href="https://github.com/vishvesh11/self-hosting-guides/tree/main/configs" 
-                  target="_blank" 
+                <a
+                  href="https://github.com/vishvesh11/self-hosting-guides/tree/main/configs"
+                  target="_blank"
                   rel="noopener noreferrer"
                 >
                   Configuration Files
                 </a>
               </Button>
               <Button asChild variant="outline">
-                <a 
-                  href="https://github.com/vishvesh11/self-hosting-guides/tree/main/scripts" 
-                  target="_blank" 
+                <a
+                  href="https://github.com/vishvesh11/self-hosting-guides/tree/main/scripts"
+                  target="_blank"
                   rel="noopener noreferrer"
                 >
                   Automation Scripts
                 </a>
               </Button>
               <Button asChild variant="outline">
-                <a 
-                  href="https://github.com/vishvesh11/self-hosting-guides/wiki" 
-                  target="_blank" 
+                <a
+                  href="https://github.com/vishvesh11/self-hosting-guides/wiki"
+                  target="_blank"
                   rel="noopener noreferrer"
                 >
                   Troubleshooting Wiki
