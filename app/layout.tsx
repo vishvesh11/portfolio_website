@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     ],
     apple: '/apple-touch-icon.png', // For apple-touch-icon
   },
-  manifest: '/site.webmanifest', // For your web app manifest
+  manifest: '/site.webmanifest', 
 };
 
 export default function RootLayout({
@@ -42,7 +42,7 @@ export default function RootLayout({
         >
           <div className="relative flex min-h-screen flex-col">
             <Header />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 p-4">{children}</main>
             <Footer />
           </div>
         </ThemeProvider>

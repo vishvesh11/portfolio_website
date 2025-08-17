@@ -37,12 +37,12 @@ const services: Service[] = [
     id: 'excalidraw',
     name: 'Excalidraw',
     description: 'Coming soon: A virtual whiteboard for sketching hand-drawn like diagrams.',
-    url: '#coming-soon',
+    url: 'https://draw.vishvesh.me',
     category: 'productivity',
     icon: '✏️',
-    status: 'maintenance',
-    lastChecked: 'N/A',
-    features: ['Coming Soon']
+    status: 'online',
+    lastChecked: '1 minute ago',
+    features: ['Collaborative drawing']
   },
   {
     id: 'reactive-resume',
@@ -54,6 +54,28 @@ const services: Service[] = [
     status: 'online',
     lastChecked: '1 minute ago',
     features: ['Multiple templates', 'PDF export', 'Real-time preview']
+  },
+  {
+    id: 'nextcloud',
+    name: 'Nextcloud',
+    description: 'Coming soon: Self-hosted file sync and collaboration platform.',
+    url: 'https://next.vishvesh.me',
+    category: 'productivity',
+    icon: '☁️',
+    status: 'online',
+    lastChecked: '1 minute ago',
+    features: ['File sync', 'Collaboration tools', 'Calendar', 'Contacts']
+  },
+  {
+    id: 'grafana',
+    name: 'Grafana',
+    description: 'Coming soon: Monitoring and observability dashboards.',
+    url: "https://kube.vishvesh.me",
+    category: 'monitoring',
+    icon: '📊',
+    status: 'online',
+    lastChecked: '1 minute ago',
+    features: ['monitoring', 'dashboards', 'visualization']
   },
   {
     id: 'code-server',
@@ -77,17 +99,7 @@ const services: Service[] = [
     lastChecked: 'N/A',
     features: ['Coming Soon']
   },
-  {
-    id: 'nextcloud',
-    name: 'Nextcloud',
-    description: 'Coming soon: Self-hosted file sync and collaboration platform.',
-    url: '#coming-soon',
-    category: 'productivity',
-    icon: '☁️',
-    status: 'maintenance',
-    lastChecked: 'N/A',
-    features: ['Coming Soon']
-  },
+  
   {
     id: 'jellyfin',
     name: 'Jellyfin',
@@ -95,17 +107,6 @@ const services: Service[] = [
     url: '#coming-soon',
     category: 'media',
     icon: '🎬',
-    status: 'maintenance',
-    lastChecked: 'N/A',
-    features: ['Coming Soon']
-  },
-  {
-    id: 'grafana',
-    name: 'Grafana',
-    description: 'Coming soon: Monitoring and observability dashboards.',
-    url: '#coming-soon',
-    category: 'monitoring',
-    icon: '📊',
     status: 'maintenance',
     lastChecked: 'N/A',
     features: ['Coming Soon']
