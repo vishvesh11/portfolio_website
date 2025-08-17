@@ -36,7 +36,7 @@ const services: Service[] = [
   {
     id: 'excalidraw',
     name: 'Excalidraw',
-    description: 'Coming soon: A virtual whiteboard for sketching hand-drawn like diagrams.',
+    description: ' A virtual whiteboard for sketching hand-drawn like diagrams.',
     url: 'https://draw.vishvesh.me',
     category: 'productivity',
     icon: '✏️',
@@ -58,7 +58,7 @@ const services: Service[] = [
   {
     id: 'nextcloud',
     name: 'Nextcloud',
-    description: 'Coming soon: Self-hosted file sync and collaboration platform.',
+    description: 'Self-hosted file sync and collaboration platform.',
     url: 'https://next.vishvesh.me',
     category: 'productivity',
     icon: '☁️',
@@ -69,13 +69,24 @@ const services: Service[] = [
   {
     id: 'grafana',
     name: 'Grafana',
-    description: 'Coming soon: Monitoring and observability dashboards.',
+    description: 'Monitoring and observability dashboards.',
     url: "https://kube.vishvesh.me",
     category: 'monitoring',
     icon: '📊',
     status: 'online',
     lastChecked: '1 minute ago',
     features: ['monitoring', 'dashboards', 'visualization']
+  },
+  {
+    id: 'n8n',
+    name: 'n8n',
+    description: ' Open-source workflow automation tool.',
+    url: "https://n8n.vishvesh.me",
+    category: 'development',
+    icon: '🔗',
+    status: 'online',
+    lastChecked: '1 minute ago',
+    features: ['Workflow automation', 'Integrations', 'Custom nodes']
   },
   {
     id: 'code-server',
