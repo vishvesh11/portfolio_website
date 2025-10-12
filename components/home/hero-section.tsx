@@ -97,7 +97,7 @@ export default function HeroSection() {
               </Button>
               <Button size="lg" variant="ghost" asChild>
                 <a
-                  href="https://linkedin.com/"
+                  href="https://www.linkedin.com/in/vishvesh11"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

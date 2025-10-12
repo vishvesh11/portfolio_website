@@ -1,5 +1,3 @@
-// src/lib/technologies.ts (or wherever you defined this)
-
 export type Technology = {
   name: string;
   icon: string; // The name of the icon from your chosen library (e.g., "brain" for Lucid Icons)
@@ -244,6 +242,54 @@ export const projects: Project[] = [
       'Reduced power consumption by 15% through smart automations',
       'Integrated 25+ IoT devices from different manufacturers into a single control interface',
       'Implemented automated backup system with 3-2-1 strategy'
+    ]
+  },
+  {
+    id: '6',
+    title: 'AWS Solutions Architect Practice',
+    slug: 'saws-solutions-architect-practice',
+    shortDescription: 'A collection of Terraform scripts for AWS Solutions Architect exam practice.',
+    longDescription: 'This repository houses a comprehensive collection of my revision and practice Terraform scripts developed while preparing for the AWS Certified Solutions Architect exam. It covers a wide range of AWS services and architectural patterns, from basic VPC and EC2 setups to more complex serverless and multi-tier application deployments.',
+    technologies: ['Terraform', 'AWS', 'VPC', 'EC2', 'S3', 'IAM', 'Lambda'],
+    imageSrc: 'https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/certification/approved/images/certification-badges/saa-badge-resized.c6a0dd1191bf67ccfdd8b4873faffead406ccec7.png',
+    githubUrl: 'https://github.com/vishvesh11/Aws_solutions_arch_practice',
+    problem: 'Using the exam doc and translating it into practical labs.',
+    solution: '',
+    architecture: '',
+    challenges: [
+      'Keeping up with the constantly evolving AWS services and exam syllabus',
+      'Managing infrastructure costs during practice to avoid unexpected bills',
+      'Translating theoretical architectural concepts into practical, reusable Terraform code'
+    ],
+    outcomes: [
+      'Created a reusable library of Terraform modules for common AWS patterns',
+      'Gained deep practical experience in provisioning and managing AWS infrastructure programmatically',
+      'Developed a strong understanding of cost optimization and security best practices in AWS'
+    ]
+  },
+  {
+    id: '7',
+    title: 'Real-Time Weather Forecasting',
+    slug: 'real-time-weather-forecasting',
+    shortDescription: 'An end-to-end system for real-time weather forecasting using machine learning and a dynamic web dashboard.',
+    longDescription: 'This project implements an end-to-end real-time weather forecasting system. It collects current weather data from public APIs, processes it through a data pipeline, and feeds it into machine learning models for hourly and daily predictions. The results, including both real-time conditions and forecasts, are visualized through a dynamic web dashboard.',
+    technologies: ['Python', 'Scikit-learn', 'Pandas', 'Flask', 'API', 'Docker', 'Chart.js'],
+    imageSrc: '',
+    githubUrl: 'https://github.com/vishvesh11/realtime-weather-forecasting',
+    problem: 'Using the exam doc and translating it into practical labs.',
+    solution: '',
+    architecture: '',
+    challenges: [
+      'Handling the high velocity and volume of real-time data from weather APIs',
+      'Ensuring the accuracy and reliability of machine learning predictions',
+      'Designing a responsive and low-latency web dashboard for data visualization',
+      'Managing API rate limits and ensuring data source reliability'
+    ],
+    outcomes: [
+      'Developed a functional end-to-end data pipeline for real-time weather data processing',
+      'Achieved an 85% accuracy rate for 24-hour temperature forecasts',
+      'Deployed a live web dashboard capable of handling concurrent users with sub-second load times',
+      'Containerized the entire application stack using Docker for easy deployment and scalability'
     ]
   }
 ];

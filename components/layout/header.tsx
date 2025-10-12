@@ -63,7 +63,7 @@ export default function Header() {
           ))}
           <Button asChild variant="default" size="sm">
             <a
-              href="https://www.linkedin.com/"
+              href="https://www.linkedin.com/in/vishvesh11"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -98,7 +98,7 @@ export default function Header() {
               ))}
               <Button asChild variant="default" className="mt-2">
                 <a
-                  href="https://www.linkedin.com/"
+                  href="https://www.linkedin.com/in/vishvesh11"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
