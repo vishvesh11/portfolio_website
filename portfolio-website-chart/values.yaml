@@ -69,10 +69,17 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
+          
+    - host: www.vishvesh.me
+      paths:
+        - path: /
+          pathType: Prefix
   tls:
     - hosts:
         - vishvesh.me
+        - www.vishvesh.me
       secretName: vishvesh-me-tls
+    
 
 resources:
   limits:
