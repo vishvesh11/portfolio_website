@@ -78,6 +78,7 @@ ingress:
   tls:
     - hosts:
         - vishvesh.me
+        - www.vishvesh.me
 
       secretName: portfolio-tls-secret
 
