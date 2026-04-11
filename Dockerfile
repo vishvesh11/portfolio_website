@@ -25,14 +25,16 @@ FROM node:22-alpine AS runner
 
 WORKDIR /app
 
+ENV NODE_ENV=production
+
 RUN addgroup --system --gid 1001 nextjs && adduser --system --uid 1001 nextjs
 
-
+# Copy only the standalone output (includes minimal node_modules + server.js)
 COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next ./.next
+# Copy static assets (JS/CSS chunks)
+COPY --from=builder /app/.next/static ./.next/static
+# Copy public assets
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
-COPY --from=builder /app/node_modules ./node_modules
 
 
 # Set permissions for the non-root user.
@@ -40,6 +42,7 @@ RUN chown -R nextjs:nextjs /app
 USER nextjs
 EXPOSE 3000
 
-
+ENV HOSTNAME="0.0.0.0"
+ENV PORT=3000
 
 CMD ["node", "server.js"]
