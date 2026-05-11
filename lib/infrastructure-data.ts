@@ -3,6 +3,7 @@ export type ConnectionType = 'default' | 'mesh' | 'monitor' | 'ingress';
 export type InfraConnection = {
   target: string;
   type: ConnectionType;
+  reason?: string;
 };
 
 export type InfraNode = {
@@ -17,7 +18,7 @@ export type InfraNode = {
   yamlSnippet?: string;
   metricsUrl?: string;
   logsUrl?: string;
-  reason?: string;
+  
 };
 
 export const infraData: InfraNode[] = [
