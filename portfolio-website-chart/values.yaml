@@ -155,3 +155,14 @@ topologySpreadConstraints:
     labelSelector:
       matchLabels:
         app.kubernetes.io/name: portfolio-website
+# Environment variables for live telemetry
+env:
+  - name: LOKI_URL
+    value: "http://loki.monitoring.svc.cluster.local:3100"
+  - name: GRAFANA_URL
+    value: "http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local:80"
+  - name: GRAFANA_SERVICE_ACCOUNT_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: grafana-telemetry-secret
+        key: token

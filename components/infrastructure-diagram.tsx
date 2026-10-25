@@ -7,6 +7,7 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { infraData, InfraNode } from '@/lib/infrastructure-data';
+import { TELEMETRY_MAPPINGS } from '@/lib/telemetry-map';
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -14,7 +15,8 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { 
   X, Activity, FileCode, Terminal, ZoomIn, ZoomOut, 
-  Maximize, RotateCcw, GripHorizontal, ArrowRight, ArrowLeft 
+  Maximize, RotateCcw, GripHorizontal, ArrowRight, ArrowLeft,
+  Clock, RefreshCw
 } from "lucide-react";
 import * as LucideIcons from 'lucide-react';
 
@@ -158,8 +160,52 @@ function DiagramCore() {
   const [panelNode, setPanelNode] = useState<InfraNode | null>(null);
   const [highlightedNodeId, setHighlightedNodeId] = useState<string | null>(null);
   
+  // Telemetry States
+  const [telemetryLogs, setTelemetryLogs] = useState<{ timestamp: string; message: string }[]>([]);
+  const [telemetryMetrics, setTelemetryMetrics] = useState<{ cpu: string; memory: string } | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+  const [isTelemetryLoading, setIsTelemetryLoading] = useState(false);
+
   const { zoomIn, zoomOut, fitView } = useReactFlow();
   const constraintsRef = useRef(null);
+
+  // Fetch telemetry data for the active node
+  const fetchTelemetry = useCallback(async (nodeId: string) => {
+    const config = TELEMETRY_MAPPINGS[nodeId];
+    if (!config) {
+      setTelemetryLogs([]);
+      setTelemetryMetrics(null);
+      setLastUpdated(null);
+      return;
+    }
+
+    setIsTelemetryLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (config.prometheusTarget) params.set('target', config.prometheusTarget);
+      if (config.lokiQuery) params.set('logql', config.lokiQuery);
+
+      const res = await fetch(`/api/telemetry?${params.toString()}`);
+      if (res.ok) {
+        const data = await res.json();
+        setTelemetryLogs(data.logs || []);
+        setTelemetryMetrics(data.metrics || null);
+        setLastUpdated(data.lastUpdated);
+      }
+    } catch (err) {
+      console.error('Failed to fetch telemetry:', err);
+    } finally {
+      setIsTelemetryLoading(false);
+    }
+  }, []);
+
+  // Poll telemetry every 30 seconds while modal is open
+  useEffect(() => {
+    if (!panelNode) return;
+    fetchTelemetry(panelNode.id);
+    const interval = setInterval(() => fetchTelemetry(panelNode.id), 30000);
+    return () => clearInterval(interval);
+  }, [panelNode, fetchTelemetry]);
 
   useEffect(() => {
     if (!highlightedNodeId) {
@@ -221,7 +267,7 @@ function DiagramCore() {
   return (
     <div className="relative w-full h-[850px] bg-background border rounded-xl overflow-hidden shadow-inner" ref={constraintsRef}>
       
-      {/* CSS-based Safari-safe Background */}
+      {/* CSS-based Background */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(hsl(var(--muted-foreground))_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none" />
 
       {/* CANVAS */}
@@ -246,7 +292,7 @@ function DiagramCore() {
         />
       </div>
 
-      {/* CUSTOM CONTROLS TOOLBAR */}
+      {/* CONTROLS TOOLBAR */}
       <div className="absolute bottom-6 left-6 flex flex-col gap-2 z-40 bg-card/90 backdrop-blur-md p-2 rounded-lg border shadow-lg">
         <Button variant="ghost" size="icon" onClick={() => zoomIn({ duration: 300 })} aria-label="Zoom In">
           <ZoomIn className="h-5 w-5" />
@@ -263,7 +309,7 @@ function DiagramCore() {
         </Button>
       </div>
 
-      {/* DRAGGABLE FLOATING OVERLAY PANEL */}
+      {/* FLOATING OVERLAY PANEL */}
       {panelNode && (
         <motion.div 
           drag 
@@ -273,39 +319,56 @@ function DiagramCore() {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 50 }}
-          className="absolute top-6 right-6 w-[420px] h-[calc(100%-48px)] z-50 bg-card/95 backdrop-blur-xl rounded-2xl border border-border shadow-2xl flex flex-col overflow-hidden"
+          className="absolute top-6 right-6 w-[440px] h-[calc(100%-48px)] z-50 bg-card/95 backdrop-blur-xl rounded-2xl border border-border shadow-2xl flex flex-col overflow-hidden"
         >
           <div className="p-4 border-b flex justify-between items-start bg-muted/40 cursor-grab active:cursor-grabbing">
             <div className="flex-grow flex items-center gap-2">
               <GripHorizontal className="h-5 w-5 text-muted-foreground opacity-50" />
               <div>
                 <h3 className="font-bold text-xl">{panelNode.name}</h3>
-                <div className="flex gap-2 mt-2">
+                <div className="flex items-center gap-2 mt-2">
                   <Badge variant="outline" className="capitalize">{panelNode.type}</Badge>
                   <Badge variant="secondary" className={panelNode.status === 'operational' ? 'bg-green-500/10 text-green-500' : ''}>
                     {panelNode.status}
                   </Badge>
+                  
+                  {/* LAST UPDATED BADGE */}
+                  {lastUpdated && (
+                    <div className="flex items-center gap-1 text-[11px] font-mono text-muted-foreground bg-background/80 px-2 py-0.5 rounded border">
+                      <Clock className="w-3 h-3 text-primary" />
+                      <span>{lastUpdated}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
             
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                setPanelNode(null);
-              }} 
-              className="p-2 hover:bg-background rounded-lg transition-colors border bg-card shadow-sm cursor-pointer"
-            >
-              <X className="w-5 h-5 text-muted-foreground" />
-            </button>
+            <div className="flex items-center gap-1">
+              <button 
+                onClick={() => fetchTelemetry(panelNode.id)}
+                disabled={isTelemetryLoading}
+                title="Refresh Live Data"
+                className="p-2 hover:bg-background rounded-lg transition-colors border bg-card shadow-sm cursor-pointer disabled:opacity-50"
+              >
+                <RefreshCw className={`w-4 h-4 text-muted-foreground ${isTelemetryLoading ? 'animate-spin' : ''}`} />
+              </button>
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setPanelNode(null);
+                }} 
+                className="p-2 hover:bg-background rounded-lg transition-colors border bg-card shadow-sm cursor-pointer"
+              >
+                <X className="w-5 h-5 text-muted-foreground" />
+              </button>
+            </div>
           </div>
 
           <div className="p-6 flex-grow overflow-y-auto">
             <p className="text-muted-foreground mb-6 text-sm leading-relaxed">{panelNode.description}</p>
             
-            {/* NEW: DYNAMIC CONNECTIONS REASON LIST */}
-            <div className="mb-8">
-              {/* Outgoing Connections */}
+            {/* DYNAMIC CONNECTIONS */}
+            <div className="mb-6">
               {panelNode.connections && panelNode.connections.length > 0 && (
                 <div className="mb-4 space-y-2">
                   <h4 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2 flex items-center gap-2">
@@ -325,7 +388,6 @@ function DiagramCore() {
                 </div>
               )}
 
-              {/* Incoming Connections */}
               {(() => {
                 const incoming = infraData.filter(n => n.connections?.some(c => c.target === panelNode.id));
                 if (incoming.length === 0) return null;
@@ -350,37 +412,70 @@ function DiagramCore() {
               })()}
             </div>
             
-            <Tabs defaultValue="yaml" className="w-full">
+            <Tabs defaultValue="metrics" className="w-full">
               <TabsList className="grid w-full grid-cols-3 mb-4">
-                <TabsTrigger value="yaml"><FileCode className="w-4 h-4 mr-2"/> YAML</TabsTrigger>
                 <TabsTrigger value="metrics"><Activity className="w-4 h-4 mr-2"/> Metrics</TabsTrigger>
                 <TabsTrigger value="logs"><Terminal className="w-4 h-4 mr-2"/> Logs</TabsTrigger>
+                <TabsTrigger value="yaml"><FileCode className="w-4 h-4 mr-2"/> YAML</TabsTrigger>
               </TabsList>
+
+              {/* LIVE METRICS TAB */}
+              <TabsContent value="metrics">
+                <Card>
+                  <CardContent className="p-4 space-y-4">
+                    {telemetryMetrics ? (
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="rounded-lg border bg-muted/30 p-3 font-mono">
+                          <span className="text-xs text-muted-foreground block">CPU Usage</span>
+                          <span className="text-xl font-bold text-foreground">
+                            {telemetryMetrics.cpu}
+                          </span>
+                        </div>
+                        <div className="rounded-lg border bg-muted/30 p-3 font-mono">
+                          <span className="text-xs text-muted-foreground block">RAM Usage</span>
+                          <span className="text-xl font-bold text-foreground">
+                            {telemetryMetrics.memory}
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="p-6 text-center text-sm text-muted-foreground">
+                        {isTelemetryLoading ? 'Querying Prometheus...' : 'No Prometheus target mapped for this node.'}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
               
+              {/* LIVE LOKI LOGS TAB */}
+              <TabsContent value="logs">
+                <Card>
+                  <CardContent className="p-0 overflow-hidden rounded-md border-0">
+                    <div className="h-64 overflow-y-auto bg-zinc-950 p-3 font-mono text-[11px] leading-relaxed text-zinc-300 space-y-1.5">
+                      {telemetryLogs.length > 0 ? (
+                        telemetryLogs.map((log, idx) => (
+                          <div key={idx} className="flex gap-2 items-start">
+                            <span className="text-zinc-500 shrink-0 select-none text-[10px]">{log.timestamp}</span>
+                            <span className="text-emerald-400 break-all">{log.message}</span>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="h-full flex items-center justify-center text-zinc-500 py-12">
+                          {isTelemetryLoading ? 'Streaming from Loki...' : 'No logs recorded in the last hour.'}
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              {/* YAML TAB */}
               <TabsContent value="yaml" className="mt-0">
                 <Card>
                   <CardContent className="p-0 overflow-hidden rounded-md border-0">
                     <pre className="p-4 bg-zinc-950 text-green-400 text-xs font-mono overflow-x-auto whitespace-pre-wrap rounded-md">
                       {panelNode.yamlSnippet || "# Code block pending GitOps sync...\n# Awaiting configuration."}
                     </pre>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-              
-              <TabsContent value="metrics">
-                <Card>
-                  <CardContent className="p-8 flex flex-col items-center justify-center text-center text-muted-foreground">
-                    <Activity className="w-8 h-8 opacity-50 mb-3" />
-                    <p className="text-sm">Metrics Dashboard Pending</p>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-              
-              <TabsContent value="logs">
-                 <Card>
-                  <CardContent className="p-8 flex flex-col items-center justify-center text-center bg-zinc-950 text-zinc-50 rounded-md">
-                    <Terminal className="w-8 h-8 opacity-50 mb-3" />
-                    <p className="text-sm">Loki Log Stream Pending</p>
                   </CardContent>
                 </Card>
               </TabsContent>
